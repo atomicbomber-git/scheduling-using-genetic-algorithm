@@ -253,7 +253,7 @@ class GeneticAlgo:
 
 st.set_page_config(layout="wide")
 
-st.title("Aplikasi Gerry")
+st.title("Penjadwalan dengan Genetic Algorithm")
 
 st.divider()
 
@@ -503,7 +503,7 @@ algo = GeneticAlgo(
     mutation_rate=MUTATION_RATE
 )
 
-avg_fitness_data = []
+chart_data = []
 
 
 def perform(pop: Population):
@@ -512,7 +512,7 @@ def perform(pop: Population):
     while True:
         pop = algo.evolve_population(pop).clone(data)
         max_fitness = pop.schedules[0].calculate_fitness()
-        avg_fitness_data.append((idx + 1, pop.average_fitness(), max_fitness))
+        chart_data.append((idx + 1, pop.average_fitness(), max_fitness))
 
         idx += 1
         if max_fitness >= 1.0:
@@ -521,10 +521,18 @@ def perform(pop: Population):
 
     return pop
 
+import time
 
+start_time = time.time()
 
 final_pop = perform(initial_pop)
-st.line_chart(pd.DataFrame(avg_fitness_data, columns=["iteration", "avg_fitness", "max_fitness"]), x="iteration", y=["avg_fitness", "max_fitness"])
+
+end_time = time.time()
+
+st.subheader(f"Total Waktu: {end_time - start_time} detik")
+st.subheader(f"Total Iterasi: {chart_data[-1][0]} iterasi")
+
+st.line_chart(pd.DataFrame(chart_data, columns=["iteration", "avg_fitness", "max_fitness"]), x="iteration", y=["avg_fitness", "max_fitness"])
 
 
 def render_pop(pop: Population, streamlit_target=st):
