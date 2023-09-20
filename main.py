@@ -1,6 +1,4 @@
 import copy
-import json
-
 import streamlit as st
 import pandas as pd
 from typing import List
@@ -214,13 +212,7 @@ class GeneticAlgo:
     def crossover_population(self, pop: Population):
         pop.sort_schedules_by_fitness()
         crossover_pop = Population(0)
-
-
-        # st.text( f"PPP {pop.schedules[0].calculate_fitness()}")
-
         pop.sort_schedules_by_fitness()
-
-
 
         for idx in range(0, self.elite_schedules_count):
             crossover_pop.schedules.append(pop.schedules[idx])
@@ -266,14 +258,6 @@ st.title("Aplikasi Gerry")
 st.divider()
 
 st.subheader("Pengaturan Data")
-
-# rooms_tab, meeting_times_tab, instructors_tab, courses_tab, departments_tab = st.tabs([
-#     "Ruangan",
-#     "Waktu Pertemuan",
-#     "Instruktur",
-#     "Mata Kuliah",
-#     "Departemen"
-# ])
 
 ID_FIELD = "ID"
 INSTRUCTOR_NAMES_FIELD = "Nama Instruktur"
@@ -503,7 +487,6 @@ NUMB_OF_ELITE_SCHEDULES = st.number_input("NUMB_OF_ELITE_SCHEDULES", value=1)
 TOURNAMENT_SELECTION_SIZE = st.number_input("TOURNAMENT_SELECTION_SIZE", value=3, min_value=0,
                                             max_value=POPULATION_SIZE)
 MUTATION_RATE = st.number_input("MUTATION_RATE", value=0.1, min_value=0.0, max_value=1.0, step=0.1)
-ITERATION = st.number_input("ITERATION", value=5, step=1)
 
 
 data = get_data()
@@ -541,8 +524,6 @@ def perform(pop: Population):
 
 
 final_pop = perform(initial_pop)
-
-
 st.line_chart(pd.DataFrame(avg_fitness_data, columns=["iteration", "avg_fitness", "max_fitness"]), x="iteration", y=["avg_fitness", "max_fitness"])
 
 
