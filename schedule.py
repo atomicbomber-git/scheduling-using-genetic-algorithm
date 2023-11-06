@@ -1,40 +1,52 @@
 import random
-from typing import List
+from typing import List, Optional
 
 from academic_class import AcademicClass
 from data import Data
 from data_utils import to_json
 import pickle
 
+
 class Schedule:
     def __str__(self):
         return "\n".join([str(x) for x in self.academic_classes])
 
-    def __init__(self, id, data: Data):
+    def __init__(self, id, data: Optional[Data] = None, academic_classes: Optional[List[AcademicClass]] = None,
+                 fitness: Optional[float] = None):
         self.id = id
-        self.academic_classes: List[AcademicClass] = []
+        self.academic_classes = []
 
         class_id_counter = 0
 
-        for department in data.departments:
-            for course in department.courses:
-
-                self.academic_classes.append(
-                    AcademicClass(
-                        class_id_counter,
-                        department,
-                        course,
-                        random.choice(data.rooms),
-                        random.choice(data.meeting_times),
-                        random.choice(course.instructors)
+        if academic_classes is None:
+            for department in data.departments:
+                for course in department.courses:
+                    self.academic_classes.append(
+                        AcademicClass(
+                            class_id_counter,
+                            department,
+                            course,
+                            random.choice(data.rooms),
+                            random.choice(data.meeting_times),
+                            random.choice(course.instructors)
+                        )
                     )
-                )
-                class_id_counter += 1
+                    class_id_counter += 1
+                    pass
                 pass
-            pass
-        pass
+        else:
+            self.academic_classes = academic_classes
 
-    pass
+        if fitness is None:
+            self.fitness = self.calculate_fitness()
+        else:
+            self.fitness = fitness
+
+    def calculate_and_cache_fitness(self):
+        self.fitness = self.calculate_fitness()
+
+    def clone(self):
+        return Schedule(id=self.id, academic_classes=[ac.clone() for ac in self.academic_classes], fitness=self.fitness)
 
     def calculate_fitness(self):
         total_conflicts = 0
@@ -60,6 +72,7 @@ class Schedule:
 
                         if academic_class.instructor.id == comp_academic_class.instructor.id:
                             total_conflicts += 1
+                        pass
                     pass
                 pass
             pass

@@ -11,7 +11,7 @@ class Department:
     ):
         self.name = name
         self.credits = credit_amount
-        self.is_laboratory = False
+        self.is_laboratory = is_laboratory
 
         if department_courses is None:
             self.courses = []
@@ -19,4 +19,4 @@ class Department:
             self.courses = department_courses
 
     def __str__(self):
-        return f"{self.name} ({self.credits} SKS)"
+        return f"{self.name} ({self.credits} SKS){' (Lab)' if self.is_laboratory else ''}"

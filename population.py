@@ -1,5 +1,5 @@
 from schedule import Schedule
-from data import Data
+
 
 class Population:
     def __init__(self, pop_size, data):
@@ -30,7 +30,7 @@ class Population:
         return ", ".join([str(x.id) for x in self.schedules])
 
     def sort_schedules_by_fitness(self):
-        self.schedules.sort(key=lambda x: x.calculate_fitness(), reverse=True)
+        self.schedules.sort(key=lambda x: x.fitness, reverse=True)
 
     def average_fitness(self):
         return sum([schedule.calculate_fitness() for schedule in self.schedules]) / len(self.schedules)

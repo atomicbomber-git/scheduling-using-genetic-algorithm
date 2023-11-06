@@ -15,5 +15,8 @@ class AcademicClass:
         self.meeting_time = meeting_time
         self.instructor = instructor
 
+    def clone(self):
+        return AcademicClass(self.id, self.department, self.course, self.room, self.meeting_time, self.instructor)
+
     def __str__(self):
         return f"{self.id}-{self.department.name}-{self.course.name}-{self.meeting_time}"

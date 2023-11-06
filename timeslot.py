@@ -1,4 +1,22 @@
+from collections import OrderedDict
+
 from dateutil.parser import parse as datetimeparse
+
+cache = OrderedDict()
+
+
+def intern_overlaps(t1: 'TimeSlot', t2: 'TimeSlot') -> bool:
+    global cache
+    key1 = (t1.start_time, t1.end_time, t2.start_time, t2.end_time)
+    key2 = (t2.start_time, t2.end_time, t1.start_time, t1.end_time)
+
+    if (key1 not in cache) and (key2 not in cache):
+        result = t1.start_time <= t2.end_time and t1.end_time >= t2.start_time
+
+        cache[key1] = result
+        cache[key2] = result
+
+    return cache[key1]
 
 
 class TimeSlot:
@@ -8,7 +26,7 @@ class TimeSlot:
         self.credits = credits
 
     def overlaps(self, other_timeslot: 'TimeSlot') -> bool:
-        return self.start_time <= other_timeslot.end_time and self.end_time >= other_timeslot.start_time
+        return intern_overlaps(self, other_timeslot)
 
     def does_not_overlap(self, other_timeslot: 'TimeSlot') -> bool:
         return not self.overlaps(other_timeslot)

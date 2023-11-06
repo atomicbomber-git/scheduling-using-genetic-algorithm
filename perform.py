@@ -16,14 +16,14 @@ def perform(
     iteration_counter = 0
 
     pop = pop.clone(data)
-
-    max_fitness = pop.schedules[0].calculate_fitness()
+    max_fitness = pop.schedules[0].fitness
 
     try:
         while True:
             iteration_counter = iteration_counter + 1
             pop = algo.evolve_population(pop).clone(data)
-            max_fitness = pop.schedules[0].calculate_fitness()
+
+            max_fitness = pop.schedules[0].fitness
 
             if iter_callback is not None:
                 iter_callback(pop, iteration_counter, max_fitness)

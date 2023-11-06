@@ -18,7 +18,8 @@ POPULATION_SIZE = st.number_input("POPULATION_SIZE", value=9)
 NUMB_OF_ELITE_SCHEDULES = st.number_input("NUMB_OF_ELITE_SCHEDULES", value=1)
 TOURNAMENT_SELECTION_SIZE = st.number_input("TOURNAMENT_SELECTION_SIZE", value=3, min_value=0,
                                             max_value=POPULATION_SIZE)
-MUTATION_RATE = st.number_input("MUTATION_RATE", value=0.5, min_value=0.0, max_value=1.0, step=0.1)
+MUTATION_RATE = st.number_input("MUTATION_RATE", value=0.1, min_value=0.0, max_value=1.0, step=0.1)
+CROSSOVER_RATE = st.number_input("CROSSOVER_RATE", value=0.1, min_value=0.0, max_value=1.0, step=0.1)
 
 saved_pop_path = "output/schedule.pkl"
 
@@ -31,6 +32,7 @@ algo = GeneticAlgo(
     elite_schedules_count=NUMB_OF_ELITE_SCHEDULES,
     tournament_size=TOURNAMENT_SELECTION_SIZE,
     mutation_rate=MUTATION_RATE,
+    crossover_rate=0.1,
     data=data
 )
 
