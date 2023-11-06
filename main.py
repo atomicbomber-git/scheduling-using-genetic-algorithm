@@ -1,11 +1,12 @@
 import streamlit as st
 import pandas as pd
 from data_utils import get_data
-from genetic_algo import GeneticAlgo
+from genetic_algo import GeneticAlgoV1
 from perform import perform
 from population import Population
 from schedule import Schedule
 import pickle
+from config import config
 
 data = get_data()
 
@@ -14,12 +15,11 @@ st.title("Penjadwalan dengan Genetic Algorithm")
 st.divider()
 st.subheader("Pengaturan Data")
 
-POPULATION_SIZE = st.number_input("POPULATION_SIZE", value=9)
-NUMB_OF_ELITE_SCHEDULES = st.number_input("NUMB_OF_ELITE_SCHEDULES", value=1)
-TOURNAMENT_SELECTION_SIZE = st.number_input("TOURNAMENT_SELECTION_SIZE", value=3, min_value=0,
-                                            max_value=POPULATION_SIZE)
-MUTATION_RATE = st.number_input("MUTATION_RATE", value=0.1, min_value=0.0, max_value=1.0, step=0.1)
-CROSSOVER_RATE = st.number_input("CROSSOVER_RATE", value=0.1, min_value=0.0, max_value=1.0, step=0.1)
+POPULATION_SIZE = st.number_input("POPULATION_SIZE", value=config['population_size'])
+NUMB_OF_ELITE_SCHEDULES = st.number_input("NUMB_OF_ELITE_SCHEDULES", value=config['number_of_elites'])
+TOURNAMENT_SELECTION_SIZE = st.number_input("TOURNAMENT_SELECTION_SIZE", value=config['tournament_size'], min_value=0, max_value=POPULATION_SIZE)
+MUTATION_RATE = st.number_input("MUTATION_RATE", value=config['mutation_rate'], min_value=0.0, max_value=1.0, step=0.1)
+CROSSOVER_RATE = st.number_input("CROSSOVER_RATE", value=config['crossover_rate'], min_value=0.0, max_value=1.0, step=0.1)
 
 saved_pop_path = "output/schedule.pkl"
 
@@ -27,7 +27,7 @@ with open(saved_pop_path, "rb") as file:
     # Load the object from the file
     initial_pop = pickle.load(file)
 
-algo = GeneticAlgo(
+algo = GeneticAlgoV1(
     population_size=POPULATION_SIZE,
     elite_schedules_count=NUMB_OF_ELITE_SCHEDULES,
     tournament_size=TOURNAMENT_SELECTION_SIZE,

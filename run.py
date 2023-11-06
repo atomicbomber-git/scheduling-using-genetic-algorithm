@@ -2,7 +2,7 @@ from config import config
 from data_utils import get_data
 from population import Population
 from perform import perform
-from genetic_algo import GeneticAlgo
+from genetic_algo import GeneticAlgoV1, GeneticAlgoV2
 import pickle
 import os
 import time
@@ -42,7 +42,7 @@ if __name__ == '__main__':
 
     data = get_data()
 
-    algo = GeneticAlgo(
+    algo = GeneticAlgoV2(
         population_size=config['population_size'],
         elite_schedules_count=config['number_of_elites'],
         tournament_size=config['tournament_size'],

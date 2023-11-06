@@ -1,8 +1,16 @@
-import timeslot
+from typing import List
+import random
 
-t1 = timeslot.timeslots[0]
-t2 = timeslot.timeslots[4]
 
-print(t1)
-print(t2)
-print(t1.overlaps(t2))
+x = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
+y = [11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+
+
+def one_point_crossover(list_a: List, list_b: List):
+    point = random.randint(0, len(list_a))
+    return list_a[:point] + list_b[point:]
+
+
+
+
+print(one_point_crossover(x, y))

@@ -1,13 +1,13 @@
 from typing import Callable, Optional
 
-from genetic_algo import GeneticAlgo
+from genetic_algo import GeneticAlgoV1
 from data_utils import Data
 from population import Population
 
 
 def perform(
         data: Data,
-        algo: GeneticAlgo,
+        algo: GeneticAlgoV1,
         pop: Population,
         max_iter=Optional[int],
         iter_callback: Optional[Callable[[Population, int, float], None]] = None,
