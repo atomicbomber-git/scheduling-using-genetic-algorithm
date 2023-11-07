@@ -36,33 +36,31 @@ algo = GeneticAlgoV1(
     data=data
 )
 
-chart_data = []
-
-import time
-
-start_time = time.time()
 
 
-def append_chart_data(pop: Population, i: int, max_fitness: float):
-    global chart_data
-    chart_data.append((i + 1, pop.average_fitness(), max_fitness))
+# start_time = time.time()
+#
+#
+# def append_chart_data(pop: Population, i: int, max_fitness: float):
+#     global chart_data
+#     chart_data.append((i + 1, pop.average_fitness(), max_fitness))
+#
+#
+# final_pop = perform(
+#     data=data,
+#     algo=algo,
+#     pop=initial_pop,
+#     max_iter=10,
+#     iter_callback=append_chart_data
+# )
+#
+# end_time = time.time()
 
-
-final_pop = perform(
-    data=data,
-    algo=algo,
-    pop=initial_pop,
-    max_iter=10,
-    iter_callback=append_chart_data
-)
-
-end_time = time.time()
-
-st.subheader(f"Total Waktu: {end_time - start_time} detik")
-st.subheader(f"Total Iterasi: {chart_data[-1][0]} iterasi")
-
-st.line_chart(pd.DataFrame(chart_data, columns=["iteration", "avg_fitness", "max_fitness"]), x="iteration",
-              y=["avg_fitness", "max_fitness"])
+# st.subheader(f"Total Waktu: {end_time - start_time} detik")
+# st.subheader(f"Total Iterasi: {chart_data[-1][0]} iterasi")
+#
+# st.line_chart(pd.DataFrame(chart_data, columns=["iteration", "avg_fitness", "max_fitness"]), x="iteration",
+#               y=["avg_fitness", "max_fitness"])
 
 
 def render_pop(pop: Population, streamlit_target=st):
@@ -80,4 +78,4 @@ def render_pop(pop: Population, streamlit_target=st):
 col1, col2 = st.columns(2)
 
 render_pop(initial_pop.sort_schedules(), col1)
-render_pop(final_pop.sort_schedules(), col2)
+# render_pop(final_pop.sort_schedules(), col2)

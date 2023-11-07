@@ -20,9 +20,14 @@ class Population:
         return pop
 
     def sort_schedules(self):
+        def custom_sort_key(dt):
+            day_of_week_index = dt.weekday()
+            time_str = dt.strftime('%H:%M')
+            return day_of_week_index, time_str
+
         for iter_schedule in self.schedules:
             iter_schedule.academic_classes.sort(
-                key=lambda ac: ac.meeting_time.start_time
+                key=lambda ac: custom_sort_key(ac.meeting_time.start_time)
             )
         return self
 

@@ -5,9 +5,30 @@ from academic_class import AcademicClass
 from data import Data
 from data_utils import to_json
 import pickle
+import csv
 
 
 class Schedule:
+    def dump_csv(self, filename: str = 'output.csv'):
+        with open(filename, 'w', newline='') as csvfile:
+            csv_writer = csv.writer(csvfile)
+            csv_writer.writerow(['dept', 'room', 'course', 'start_time', 'end_time', 'instructor'])
+
+            for academic_class in self.academic_classes:
+                st = academic_class.meeting_time.start_time
+                et = academic_class.meeting_time.end_time
+
+                csv_writer.writerow([
+                    str(academic_class.department),
+                    str(academic_class.room),
+                    str(academic_class.course),
+                    st.strftime('%Y/%m/%d %H:%M:%S'),
+                    et.strftime('%Y/%m/%d %H:%M:%S'),
+                    str(academic_class.instructor),
+                ])
+
+        pass
+
     def __str__(self):
         return "\n".join([str(x) for x in self.academic_classes])
 
@@ -60,9 +81,12 @@ class Schedule:
             if academic_class.department.is_laboratory and academic_class.room.seating_capacity < 30:
                 total_conflicts += 1
 
+            if academic_class.meeting_time.credits < academic_class.department.credits:
+                total_conflicts += 1
+
             comp_academic_class: AcademicClass
             for j, comp_academic_class in enumerate(self.academic_classes):
-                if j >= i:
+                if j > i:
                     timeslot1 = academic_class.meeting_time
                     timeslot2 = comp_academic_class.meeting_time
 

@@ -170,7 +170,12 @@ def get_data() -> Data:
     plain_courses = (raw_courses.apply(lambda row: raw_course_to_course(row, instructors_list), axis=1)).to_list()
 
     converted_depts = [
-        Department(x.name, x.credits, [find_course_by_name(course, plain_courses) for course in x.courses]) for x in
+        Department(
+            orig_dept.name,
+            orig_dept.credits,
+            [find_course_by_name(course, plain_courses) for course in orig_dept.courses],
+            orig_dept.is_laboratory
+                   ) for orig_dept in
         source_departments
     ]
 

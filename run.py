@@ -37,8 +37,8 @@ if __name__ == '__main__':
 
     signal.signal(signal.SIGTERM, sigterm_handler)
 
-    saved_pop_path = "output/schedule.pkl"
-    log_path = "output/log.txt"
+    saved_pop_path = config['schedule_dump_bin_path']
+    log_path = config['schedule_dump_log_path']
 
     data = get_data()
 
