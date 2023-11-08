@@ -19,6 +19,9 @@ class Population:
             pop.schedules.append(self_schedule)
         return pop
 
+    def best_schedule(self) -> Schedule:
+        return max(self.schedules, key=lambda schedule: schedule.fitness)
+
     def sort_schedules(self):
         def custom_sort_key(dt):
             day_of_week_index = dt.weekday()

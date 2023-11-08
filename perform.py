@@ -1,15 +1,16 @@
 from typing import Callable, Optional
 
-from genetic_algo import GeneticAlgoV1
+from genetic_algo import GeneticAlgoV1, GeneticAlgoV2
 from data_utils import Data
 from population import Population
 
 
 def perform(
         data: Data,
-        algo: GeneticAlgoV1,
+        algo: GeneticAlgoV1|GeneticAlgoV2,
         pop: Population,
         max_iter=Optional[int],
+        start_callback: Optional[Callable[[Population, int, float], None]] = None,
         iter_callback: Optional[Callable[[Population, int, float], None]] = None,
         finish_callback: Optional[Callable[[Population, int, float], None]] = None
 ):
@@ -17,6 +18,9 @@ def perform(
 
     pop = pop.clone(data)
     max_fitness = pop.schedules[0].fitness
+
+    if start_callback is not None:
+        start_callback(pop, iteration_counter, max_fitness)
 
     try:
         while True:

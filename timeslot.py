@@ -1,22 +1,10 @@
 from collections import OrderedDict
 
+from functools import lru_cache
 from dateutil.parser import parse as datetimeparse
+from util import format_time
 
 cache = OrderedDict()
-
-
-def intern_overlaps(t1: 'TimeSlot', t2: 'TimeSlot') -> bool:
-    global cache
-    key1 = (t1.start_time, t1.end_time, t2.start_time, t2.end_time)
-    key2 = (t2.start_time, t2.end_time, t1.start_time, t1.end_time)
-
-    if (key1 not in cache) and (key2 not in cache):
-        result = t1.start_time <= t2.end_time and t1.end_time >= t2.start_time
-
-        cache[key1] = result
-        cache[key2] = result
-
-    return cache[key1]
 
 
 class TimeSlot:
@@ -25,19 +13,19 @@ class TimeSlot:
         self.end_time = datetimeparse(end_time)
         self.credits = credits
 
+    @lru_cache(maxsize=1024)
     def overlaps(self, other_timeslot: 'TimeSlot') -> bool:
-        return intern_overlaps(self, other_timeslot)
+        return self.start_time <= other_timeslot.end_time and self.end_time >= other_timeslot.start_time
 
     def does_not_overlap(self, other_timeslot: 'TimeSlot') -> bool:
         return not self.overlaps(other_timeslot)
 
     def __str__(self):
-        return "{0}-{1}, {2} SKS".format(
-            self.start_time.strftime("%A %H:%M"),
-            self.end_time.strftime("%A %H:%M"),
+        return "[{0} - {1}] {2} SKS".format(
+            format_time(self.start_time),
+            format_time(self.end_time),
             self.credits
         )
-
     pass
 
 

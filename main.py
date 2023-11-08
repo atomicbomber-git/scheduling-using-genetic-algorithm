@@ -21,7 +21,7 @@ TOURNAMENT_SELECTION_SIZE = st.number_input("TOURNAMENT_SELECTION_SIZE", value=c
 MUTATION_RATE = st.number_input("MUTATION_RATE", value=config['mutation_rate'], min_value=0.0, max_value=1.0, step=0.1)
 CROSSOVER_RATE = st.number_input("CROSSOVER_RATE", value=config['crossover_rate'], min_value=0.0, max_value=1.0, step=0.1)
 
-saved_pop_path = "output/schedule.pkl"
+saved_pop_path = "output/backup/schedule.pkl"
 
 with open(saved_pop_path, "rb") as file:
     # Load the object from the file

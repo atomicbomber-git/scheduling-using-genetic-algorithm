@@ -75,6 +75,10 @@ if __name__ == '__main__':
         initial_pop = Population(config['population_size'], data)
 
 
+    def start_callback(pop: Population, i: int, max_fitness: float):
+        pop.best_schedule().dump_csv('output/initial_best_schedule.csv')
+        pass
+
     def iteration_callback(pop: Population, i: int, max_fitness: float):
         log_text = "ITERATION: {0}; Fitness: {1:.20f}".format(i, max_fitness)
 
@@ -93,6 +97,8 @@ if __name__ == '__main__':
         with open(saved_pop_path, "wb") as file:
             pickle.dump(pop, file)
 
+        pop.best_schedule().dump_csv('output/final_best_schedule.csv')
+
         prog_end()
 
         pass
@@ -105,6 +111,7 @@ if __name__ == '__main__':
         algo=algo,
         pop=initial_pop,
         max_iter=None,
+        start_callback=start_callback,
         iter_callback=iteration_callback,
         finish_callback=finish_callback
     )

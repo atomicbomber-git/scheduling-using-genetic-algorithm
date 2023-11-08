@@ -175,7 +175,7 @@ def get_data() -> Data:
             orig_dept.credits,
             [find_course_by_name(course, plain_courses) for course in orig_dept.courses],
             orig_dept.is_laboratory
-                   ) for orig_dept in
+        ) for orig_dept in
         source_departments
     ]
 
