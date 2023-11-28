@@ -80,33 +80,6 @@ class Schedule:
     def clone(self):
         return Schedule(id=self.id, academic_classes=[ac.clone() for ac in self.academic_classes], fitness=self.fitness)
 
-    # def calculate_fitness(self):
-    #     total_conflicts = 0
-    #     academic_classes = np.array(self.academic_classes)
-    #
-    #     room_capacity_conflicts = academic_classes['room']['seating_capacity'] < academic_classes['course'][
-    #         'max_students']
-    #     laboratory_capacity_conflicts = academic_classes['department']['is_laboratory'] & (
-    #                 academic_classes['room']['seating_capacity'] < 30)
-    #     credit_conflicts = academic_classes['meeting_time']['credits'] < academic_classes['department']['credits']
-    #
-    #     total_conflicts += room_capacity_conflicts.sum() + laboratory_capacity_conflicts.sum() + credit_conflicts.sum()
-    #
-    #     for i in range(len(self.academic_classes)):
-    #         academic_class = academic_classes[i]
-    #
-    #         timeslot1 = academic_class['meeting_time']
-    #         timeslot2 = academic_classes[i + 1:]['meeting_time']
-    #
-    #         overlaps = timeslot1['end'] > timeslot2['start']
-    #
-    #         room_name_conflicts = academic_class['room']['name'] == academic_classes[i + 1:]['room']['name']
-    #         instructor_conflicts = academic_class['instructor']['id'] == academic_classes[i + 1:]['instructor']['id']
-    #
-    #         total_conflicts += (overlaps & room_name_conflicts).sum() + (overlaps & instructor_conflicts).sum()
-    #
-    #     return 1.0 / (1.0 * total_conflicts + 1.0)
-
     def calculate_fitness(self):
         total_conflicts = 0
 

@@ -87,8 +87,18 @@ if __name__ == '__main__':
         pass
 
 
-    def finish_callback(pop: Population, i: int, max_fitness: float):
+    def finish_callback(pop: Population, i: int, max_fitness: float, solution_found_at: int):
         log_text = "FINISH: {0}; Fitness: {1:.20f}".format(i, max_fitness)
+
+        if solution_found_at != -1:
+            solution_text = "SOLUSI DITEMUKAN PADA ITERASI KE: {}".format(solution_found_at)
+            write_log(solution_text)
+            print(solution_text)
+        else:
+            solution_text = "SOLUSI TIDAK DITEMUKAN"
+            write_log(solution_text)
+            print(solution_text)
+
 
         write_log(log_text)
         print(log_text)
@@ -110,7 +120,7 @@ if __name__ == '__main__':
         data=data,
         algo=algo,
         pop=initial_pop,
-        max_iter=None,
+        max_iter=config['max_iterations'],
         start_callback=start_callback,
         iter_callback=iteration_callback,
         finish_callback=finish_callback
