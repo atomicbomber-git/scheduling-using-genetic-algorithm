@@ -1,3 +1,4 @@
+import time
 from typing import Callable, Optional
 
 from genetic_algo import GeneticAlgoV1, GeneticAlgoV2
@@ -12,9 +13,10 @@ def perform(
         max_iter=Optional[int],
         start_callback: Optional[Callable[[Population, int, float], None]] = None,
         iter_callback: Optional[Callable[[Population, int, float], None]] = None,
-        finish_callback: Optional[Callable[[Population, int, float, int], None]] = None
+        finish_callback: Optional[Callable[[Population, int, float, int, float], None]] = None
 ):
     iteration_counter = 0
+    start_time = time.time()
 
     pop = pop.clone(data)
     max_fitness = pop.schedules[0].fitness
@@ -22,7 +24,8 @@ def perform(
     if start_callback is not None:
         start_callback(pop, iteration_counter, max_fitness)
 
-    solution_found_at = -1
+    solution_found_at_iteration = -1
+    solution_found_at_time = None
 
     try:
         while True:
@@ -34,19 +37,20 @@ def perform(
 
             max_fitness = pop.schedules[0].fitness
 
-            if (max_fitness >= 1.0) and (solution_found_at == -1):
-                solution_found_at = iteration_counter
+            if (max_fitness >= 1.0) and (solution_found_at_iteration == -1):
+                solution_found_at_iteration = iteration_counter
+                solution_found_at_time = time.time() - start_time
 
             if iter_callback is not None:
                 iter_callback(pop, iteration_counter, max_fitness)
         pass
     except KeyboardInterrupt:
         if finish_callback is not None:
-            finish_callback(pop, iteration_counter, max_fitness, solution_found_at)
+            finish_callback(pop, iteration_counter, max_fitness, solution_found_at_iteration, solution_found_at_time)
         return pop
         pass
 
     if finish_callback is not None:
-        finish_callback(pop, iteration_counter, max_fitness, solution_found_at)
+        finish_callback(pop, iteration_counter, max_fitness, solution_found_at_iteration, solution_found_at_time)
 
     return pop

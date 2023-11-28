@@ -87,11 +87,17 @@ if __name__ == '__main__':
         pass
 
 
-    def finish_callback(pop: Population, i: int, max_fitness: float, solution_found_at: int):
+    def finish_callback(
+            pop: Population,
+            i: int,
+            max_fitness: float,
+            solution_found_at_iteration: int,
+            solution_found_at_time: float
+    ):
         log_text = "FINISH: {0}; Fitness: {1:.20f}".format(i, max_fitness)
 
-        if solution_found_at != -1:
-            solution_text = "SOLUSI DITEMUKAN PADA ITERASI KE: {}".format(solution_found_at)
+        if solution_found_at_iteration != -1:
+            solution_text = "SOLUSI DITEMUKAN PADA ITERASI KE: {} ({}) Detik".format(solution_found_at_iteration, solution_found_at_time)
             write_log(solution_text)
             print(solution_text)
         else:
